@@ -145,6 +145,9 @@ sqlFromMongo = (mongoQueryObject, collectionName, fields) ->
           else
             return "(" + parts.join(" AND ") + ")"
         else
+          if type(value) is "boolean"
+            value = +value #make it a bit
+
           return "#{prefix + key} = #{JSON.stringify(value)}"
 
   if collectionName? and collectionName.length > 0

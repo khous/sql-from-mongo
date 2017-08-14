@@ -205,6 +205,9 @@
               return "(" + parts.join(" AND ") + ")";
             }
           } else {
+            if (type(value) === "boolean") {
+              value = +value;
+            }
             return (prefix + key) + " = " + (JSON.stringify(value));
           }
       }
