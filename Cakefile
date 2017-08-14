@@ -28,10 +28,9 @@ runSyncRaw = (command, options) ->
 
 task('compile', 'Compile CoffeeScript source files to JavaScript', () ->
   process.chdir(__dirname)
-  fs.readdir('./', (err, contents) ->
-    files = ("#{file}" for file in contents when (file.indexOf('.coffee') > 0))
-    runSync('coffee', ['--map', '-c'].concat(files))
-  )
+  console.log('-c ' + __dirname + '/sql-from-mongo.coffee', '-o ' + __dirname)
+  runSync('coffee', ['-c ' + __dirname + '/sql-from-mongo.coffee', '-o ' + __dirname])
+  runSync('dir')
 )
 
 task('test', 'Run the CoffeeScript test suite with nodeunit', () ->

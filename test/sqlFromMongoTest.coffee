@@ -151,15 +151,15 @@ exports.sqlFromMongoTest =
 
   testExists: (test) ->
     mongoObject = {a: {$exists: true}}
-    expectedSQLString = 'IS_DEFINED(a)'
+    expectedSQLString = '(a) IS NOT NULL'
     test.equal(sqlFromMongo(mongoObject), expectedSQLString)
-    expectedSQLString = 'IS_DEFINED(col.a)'
+    expectedSQLString = '(col.a) IS NOT NULL'
     test.equal(sqlFromMongo(mongoObject, "col"), expectedSQLString)
 
     mongoObject = {a: {$exists: false}}
-    expectedSQLString = 'NOT IS_DEFINED(a)'
+    expectedSQLString = '(a) IS NULL'
     test.equal(sqlFromMongo(mongoObject), expectedSQLString)
-    expectedSQLString = 'NOT IS_DEFINED(col.a)'
+    expectedSQLString = '(col.a) IS NULL'
     test.equal(sqlFromMongo(mongoObject, "col"), expectedSQLString)
 
     test.done()

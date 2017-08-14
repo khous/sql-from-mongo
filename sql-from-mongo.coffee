@@ -76,9 +76,9 @@ sqlFromMongo = (mongoQueryObject, collectionName, fields) ->
                 return "ARRAY_LENGTH(#{prefix + key}) = #{valueValue}"
               when "$exists"
                 if valueValue
-                  return "IS_DEFINED(#{prefix + key})"
+                  return "(#{prefix + key}) IS NOT NULL"
                 else
-                  return "NOT IS_DEFINED(#{prefix + key})"
+                  return "(#{prefix + key}) IS NULL"
               when "$isArray"
                 if valueValue
                   return "IS_ARRAY(#{prefix + key})"
@@ -175,6 +175,7 @@ sqlFromMongo = (mongoQueryObject, collectionName, fields) ->
       fieldStringParts = (prefix + field for field in fields)
       fieldsString = fieldStringParts.join(", ")
     sql = "SELECT #{fieldsString} FROM #{collectionName} WHERE " + sql
+    sql = sql.replace(/"/g, "'") #Replacment for TSQL
   return sql
 
 exports.sqlFromMongo = sqlFromMongo
